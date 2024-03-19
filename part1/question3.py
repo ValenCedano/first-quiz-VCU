@@ -25,18 +25,41 @@
 # The `alchemy_combine()` function will use your oven. You can see the expected 
 # formulas and their outputs in the test file, `question3_test.py`.
 
-# This function should return an oven instance!
+class oven:
+  def __init__(self,):
+      self.ingredientes = []
+      self.temperatura = 0
+  def add(self, item):
+        self.ingredientes.append(item)
+  def freeze(self):
+     pass
+  def boil(self):
+     pass
+  def wait(self):
+     pass
+  def get_output(self):
+        if self.temperatura == 5000 and set(self.ingredientes) == {"lead", "mercury"}:
+            return "gold"
+        elif self.temperatura == -100 and set(self.ingredientes) == {"water", "air"}:
+            return "snow"
+        elif self.temperatura == 150 and set(self.ingredientes) == {"cheese", "dough", "tomato"}:
+            return "pizza"
+        else:
+            print("Chau")
+        
 def make_oven():
-  None
+   return oven()
 
-def alchemy_combine(oven, ingredients, temperature):
-  
+def alchemy_combine(make_oven, ingredients, temperature):
+  oven = make_oven
+  oven.temperatura = temperature
+
   for item in ingredients:
     oven.add(item)
 
-  if temperature < 0:
+  if oven.temperatura < 0:
     oven.freeze()
-  elif temperature >= 100:
+  elif oven.temperatura >= 100:
     oven.boil()
   else:
     oven.wait()

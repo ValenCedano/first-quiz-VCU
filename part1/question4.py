@@ -22,27 +22,35 @@ import pets_db
 # Write SQL to select the pets that are owned by nobody.
 # The output should be a list of tuples in the format: (<pet name>, <species>, <age>)
 
-sql_pets_owned_by_nobody = """
-
-Your SQL here.
-
-"""
-
+sql_pets_owned_by_nobody = '''SELECT a.name, a.species, a.age
+FROM animals a
+WHERE animal_id NOT IN (SELECT pet_id FROM people_animals);
+'''
 # Part 4.B:
 # Write SQL to select how the number of pets are older than their owners. 
 # The output should be an integer.
 
-sql_pets_older_than_owner = """
-
-Your SQL here.
-
-"""
-
+sql_pets_older_than_owner = '''
+SELECT COUNT(*) as Animales
+FROM animals a
+INNER JOIN people_animals pe ON a.animal_id = pe.pet_id
+INNER JOIN people p ON pe.owner_id = p.person_id
+WHERE a.age > p.age;
+'''
 # Part 4.C: BONUS CHALLENGE! 
 # Write SQL to select the pets that are owned by Bessie and nobody else.
 # The output should be a list of tuples in the format: (<person name>, <pet name>, <species>)
-sql_only_owned_by_bessie = """ 
 
-Your SQL here.
-
-"""
+sql_only_owned_by_bessie = '''
+SELECT p.name, a.name, a.species
+FROM animals a
+INNER JOIN people_animals pe ON a.animal_id = pe.pet_id
+INNER JOIN people p ON pe.owner_id = p.person_id
+WHERE p.name = "bessie" 
+AND p.person_id IN (
+    SELECT pe.owner_id
+    FROM people_animals pe
+    WHERE pe.pet_id = a.animal_id
+    GROUP BY pe.pet_id  
+    HAVING COUNT(pe.owner_id)= 1) ;
+'''
